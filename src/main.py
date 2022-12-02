@@ -66,16 +66,8 @@ def main():
         *SPACESHIP_SIZE
     )
 
-    vel = {
-        "yellow": {
-            "x": 0,
-            "y": 0,
-        },
-        "red": {
-            "x": 0,
-            "y": 0,
-        },
-    }
+    yellow_vel = pg.Vector2(0, 0)
+    red_vel = pg.Vector2(0, 0)
 
     clock = pg.time.Clock()
     run = True
@@ -85,65 +77,33 @@ def main():
             if evt.type == pg.QUIT:
                 run = False
 
-        handleMovement(yellow, red, pg.key.get_pressed(), vel)
+        handleMovement(yellow, red, pg.key.get_pressed(), yellow_vel, red_vel)
 
         draw_window(yellow, red)
     pg.quit()
 
 
-def handleMovement(yellow, red, keys_pressed, vel):
+def handleMovement(yellow, red, keys_pressed, vel, yellow_vel, red_vel):
     if keys_pressed[pg.K_a]:  # LEFT
-        if vel["yellow"]["x"] > -MAX_VEL:
-            vel["yellow"]["x"] -= ACCELERATION
-    else:
-        if vel["yellow"]["x"] < 0:
-            vel["yellow"]["x"] += ACCELERATION
+        yellow_vel.x -= 1
     if keys_pressed[pg.K_d]:  # RIGHT
-        if vel["yellow"]["x"] < MAX_VEL:
-            vel["yellow"]["x"] += ACCELERATION
-    else:
-        if vel["yellow"]["x"] > 0:
-            vel["yellow"]["x"] -= ACCELERATION
+        yellow_vel.x += 1
     if keys_pressed[pg.K_w]:  # UP
-        if vel["yellow"]["y"] > -MAX_VEL:
-            vel["yellow"]["y"] -= ACCELERATION
-    else:
-        if vel["yellow"]["y"] < 0:
-            vel["yellow"]["y"] += ACCELERATION
+        yellow_vel.y -= 1
     if keys_pressed[pg.K_s]:  # DOWN
-        if vel["yellow"]["y"] < MAX_VEL:
-            vel["yellow"]["y"] += ACCELERATION
-    else:
-        if vel["yellow"]["y"] > 0:
-            vel["yellow"]["y"] -= ACCELERATION
+        yellow_vel.y += 1
 
     if keys_pressed[pg.K_LEFT]:  # LEFT
-        if vel["red"]["x"] > -MAX_VEL:
-            vel["red"]["x"] -= ACCELERATION
-    else:
-        if vel["red"]["x"] < 0:
-            vel["red"]["x"] += ACCELERATION
+        red_vel.x -= 1
     if keys_pressed[pg.K_RIGHT]:  # RIGHT
-        if vel["red"]["x"] < MAX_VEL:
-            vel["red"]["x"] += ACCELERATION
-    else:
-        if vel["red"]["x"] > 0:
-            vel["red"]["x"] -= ACCELERATION
+        red_vel.x += 1
     if keys_pressed[pg.K_UP]:  # UP
-        if vel["red"]["y"] > -MAX_VEL:
-            vel["red"]["y"] -= ACCELERATION
-    else:
-        if vel["red"]["y"] < 0:
-            vel["red"]["y"] += ACCELERATION
+        red_vel.y -= 1
     if keys_pressed[pg.K_DOWN]:  # DOWN
-        if vel["red"]["y"] < MAX_VEL:
-            vel["red"]["y"] += ACCELERATION
-    else:
-        if vel["red"]["y"] > 0:
-            vel["red"]["y"] -= ACCELERATION
+        red_vel.y += 1
 
-    yellow.x += vel["yellow"]["x"]
-    yellow.y += vel["yellow"]["y"]
+    yellow.x += 
+    yellow.y += 
     red.x += vel["red"]["x"]
     red.y += vel["red"]["y"]
 
