@@ -1,11 +1,12 @@
 import pygame as pg
 import os
 
-WIDTH, HEIGHT = 720, 480
+WIDTH, HEIGHT = 1280, 720
 WIN = pg.display.set_mode((WIDTH, HEIGHT))
 
 FPS = 60
-SPEED = 5
+ACCELERATION = 1
+MAX_VEL = 8
 
 SPACESHIP_SIZE = (45, 45)
 
@@ -65,21 +66,6 @@ def main():
         *SPACESHIP_SIZE
     )
 
-    clock = pg.time.Clock()
-    run = True
-    while run:
-        clock.tick(FPS)
-        for evt in pg.event.get():
-            if evt.type == pg.QUIT:
-                run = False
-
-        handleMovement(yellow, red, pg.key.get_pressed())
-
-        draw_window(yellow, red)
-    pg.quit()
-
-
-def handleMovement(yellow, red, keys_pressed):
     vel = {
         "yellow": {
             "x": 0,
@@ -91,23 +77,75 @@ def handleMovement(yellow, red, keys_pressed):
         },
     }
 
-    if keys_pressed[pg.K_a]:  # LEFT
-        yellow.x -= SPEED
-    if keys_pressed[pg.K_d]:  # RIGHT
-        yellow.x += SPEED
-    if keys_pressed[pg.K_w]:  # UP
-        yellow.y -= SPEED
-    if keys_pressed[pg.K_s]:  # DOWN
-        yellow.y += SPEED
+    clock = pg.time.Clock()
+    run = True
+    while run:
+        clock.tick(FPS)
+        for evt in pg.event.get():
+            if evt.type == pg.QUIT:
+                run = False
 
-    if keys_pressed[pg.K_RIGHT]:
-        red.x += SPEED
-    if keys_pressed[pg.K_LEFT]:
-        red.x -= SPEED
-    if keys_pressed[pg.K_UP]:
-        red.y -= SPEED
-    if keys_pressed[pg.K_DOWN]:
-        red.y += SPEED
+        handleMovement(yellow, red, pg.key.get_pressed(), vel)
+
+        draw_window(yellow, red)
+    pg.quit()
+
+
+def handleMovement(yellow, red, keys_pressed, vel):
+    if keys_pressed[pg.K_a]:  # LEFT
+        if vel["yellow"]["x"] > -MAX_VEL:
+            vel["yellow"]["x"] -= ACCELERATION
+    else:
+        if vel["yellow"]["x"] < 0:
+            vel["yellow"]["x"] += ACCELERATION
+    if keys_pressed[pg.K_d]:  # RIGHT
+        if vel["yellow"]["x"] < MAX_VEL:
+            vel["yellow"]["x"] += ACCELERATION
+    else:
+        if vel["yellow"]["x"] > 0:
+            vel["yellow"]["x"] -= ACCELERATION
+    if keys_pressed[pg.K_w]:  # UP
+        if vel["yellow"]["y"] > -MAX_VEL:
+            vel["yellow"]["y"] -= ACCELERATION
+    else:
+        if vel["yellow"]["y"] < 0:
+            vel["yellow"]["y"] += ACCELERATION
+    if keys_pressed[pg.K_s]:  # DOWN
+        if vel["yellow"]["y"] < MAX_VEL:
+            vel["yellow"]["y"] += ACCELERATION
+    else:
+        if vel["yellow"]["y"] > 0:
+            vel["yellow"]["y"] -= ACCELERATION
+
+    if keys_pressed[pg.K_LEFT]:  # LEFT
+        if vel["red"]["x"] > -MAX_VEL:
+            vel["red"]["x"] -= ACCELERATION
+    else:
+        if vel["red"]["x"] < 0:
+            vel["red"]["x"] += ACCELERATION
+    if keys_pressed[pg.K_RIGHT]:  # RIGHT
+        if vel["red"]["x"] < MAX_VEL:
+            vel["red"]["x"] += ACCELERATION
+    else:
+        if vel["red"]["x"] > 0:
+            vel["red"]["x"] -= ACCELERATION
+    if keys_pressed[pg.K_UP]:  # UP
+        if vel["red"]["y"] > -MAX_VEL:
+            vel["red"]["y"] -= ACCELERATION
+    else:
+        if vel["red"]["y"] < 0:
+            vel["red"]["y"] += ACCELERATION
+    if keys_pressed[pg.K_DOWN]:  # DOWN
+        if vel["red"]["y"] < MAX_VEL:
+            vel["red"]["y"] += ACCELERATION
+    else:
+        if vel["red"]["y"] > 0:
+            vel["red"]["y"] -= ACCELERATION
+
+    yellow.x += vel["yellow"]["x"]
+    yellow.y += vel["yellow"]["y"]
+    red.x += vel["red"]["x"]
+    red.y += vel["red"]["y"]
 
     if yellow.x < 0:
         yellow.x = 0
