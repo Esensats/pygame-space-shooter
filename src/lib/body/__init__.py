@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import List
 import pygame as pg
 
-from lib.general import Team
+from lib.general import Screen, Team
 
 
 class Bullet:
@@ -30,7 +30,7 @@ class Bullet:
         yellow: pg.Rect,
         red: pg.Rect,
     ) -> List[Team]:
-        """Handles bullets movement, collisions with players
+        """Handles bullets movement, collisions with players, and destroys them once off-screen
 
         Args:
             yel_bullets (List[Bullet]): list of yellow's bullets
@@ -48,11 +48,15 @@ class Bullet:
             if bullet.collide_player(red):
                 yel_bullets.remove(bullet)
                 damaged_players.append(Team.RED)
+            elif not Screen.collide_rect(bullet.rect):
+                yel_bullets.remove(bullet)
 
         for bullet in red_bullets:
             bullet.move()
             if bullet.collide_player(yellow):
                 red_bullets.remove(bullet)
                 damaged_players.append(Team.YELLOW)
+            elif not Screen.collide_rect(bullet.rect):
+                red_bullets.remove(bullet)
 
         return damaged_players

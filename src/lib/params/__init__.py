@@ -12,11 +12,13 @@ PLAYER_SPEED = 8
 PLAYER_MAX_VEL = 1  # Instead change PLAYER_SPEED
 
 SPACESHIP_SIZE = (
-    45,
-    45,
+    50,
+    50,
 )  # Ship's bounding box, not the img size. Related to spaceship sizes from lib.img
 
 BORDER_THICKNESS = 5
 BORDER = pg.Rect(WIDTH / 2 - BORDER_THICKNESS / 2, 0, BORDER_THICKNESS, HEIGHT)
 
-BULLET_LIMIT = 3
+BULLET_LIMIT = 8
+
+PLAYER_HEALTH = 5

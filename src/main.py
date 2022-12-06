@@ -4,6 +4,7 @@ import lib.color as clr
 from lib.body import Bullet
 from lib.general import Team, TeamColor
 import lib.params as prm
+import lib.state as state
 
 pg.init()
 WIN = pg.display.set_mode((prm.WIDTH, prm.HEIGHT))
@@ -41,6 +42,8 @@ def draw_winner(player_win_text: pg.surface.Surface):
 
 
 def main() -> None:
+    pg.event.clear()
+
     yellow = pg.Rect(
         prm.WIDTH / 4 - prm.SPACESHIP_SIZE[0] / 2,
         prm.HEIGHT / 2 - prm.SPACESHIP_SIZE[1] / 2,
@@ -55,8 +58,8 @@ def main() -> None:
     yellow_vec = pg.math.Vector2(0, 0)
     red_vec = pg.math.Vector2(0, 0)
 
-    yel_health = 10
-    red_health = 10
+    yel_health = prm.PLAYER_HEALTH
+    red_health = prm.PLAYER_HEALTH
 
     yel_bullets: List[Bullet] = []
     red_bullets: List[Bullet] = []
@@ -119,7 +122,8 @@ def main() -> None:
 
         draw_window(yellow, red, yel_bullets, red_bullets)
         clock.tick(prm.FPS)
-    print("Restart")
+    if state.Global._debug:
+        print("Restart")
     main()
 
 
