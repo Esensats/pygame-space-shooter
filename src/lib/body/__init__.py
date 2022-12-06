@@ -7,7 +7,7 @@ from lib.general import Screen, Team
 
 class Bullet:
     DEFAULT_SIZE = (10, 5)
-    SPEED = 8
+    SPEED = 11  # 8
 
     def __init__(self, pos: pg.math.Vector2, team: Team, size=DEFAULT_SIZE):
         self.team = team

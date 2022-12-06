@@ -21,5 +21,5 @@ class Code:
 
 class Alias:
     BACKGROUND = Code.WHITE
-    BORDER = Code.GRAY
+    BORDER = Code.WHITE
     TEXT = Code.WHITE

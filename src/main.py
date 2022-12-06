@@ -14,16 +14,25 @@ from lib.file import Image, Font
 pg.display.set_caption(prm.WINDOW_TITLE)
 
 PLAYER_WIN_EVENT = pg.USEREVENT + 1
+PLAYER_TIE_EVENT = pg.USEREVENT + 2
 
 
 def draw_window(
-    yellow: pg.Rect, red: pg.Rect, yel_bullets: List[Bullet], red_bullets: List[Bullet]
+    yellow: pg.Rect,
+    red: pg.Rect,
+    yel_bullets: List[Bullet],
+    red_bullets: List[Bullet],
+    yel_health: int,
+    red_health: int,
 ) -> None:
     # WIN.fill(CLR["BACKGROUND"])
     WIN.blit(Image.SPACE_BG, (0, 0))
     pg.draw.rect(WIN, clr.Alias.BORDER, prm.BORDER)
     WIN.blit(Image.YELLOW_SPACESHIP, (yellow.x, yellow.y))
     WIN.blit(Image.RED_SPACESHIP, (red.x, red.y))
+
+    draw_health(yel_health, red_health)
+
     for bullet in yel_bullets:
         pg.draw.rect(WIN, TeamColor.YELLOW_COLOR, bullet.rect)
     for bullet in red_bullets:
@@ -32,13 +41,26 @@ def draw_window(
     pg.display.update()
 
 
-def draw_winner(player_win_text: pg.surface.Surface):
+def draw_winner(string: str):
+    player_win_text = Font.MAIN_400.render(string, True, clr.Alias.TEXT)
     WIN.blit(
         player_win_text,
         (prm.WIDTH // 2 - player_win_text.get_width() // 2, prm.HEIGHT // 3),
     )
     pg.display.update()
     pg.time.delay(3000)
+
+
+def draw_health(yel_health: int, red_health: int):
+    yel_string = f"Yellow health: {yel_health}"
+    yel_text = Font.MAIN_400.render(yel_string, True, clr.Alias.TEXT)
+    WIN.blit(yel_text, (prm.HUD_PADDING, prm.HUD_PADDING))
+
+    red_string = f"Red health: {red_health}"
+    red_text = Font.MAIN_400.render(red_string, True, clr.Alias.TEXT)
+    WIN.blit(
+        red_text, (prm.WIDTH - red_text.get_width() - prm.HUD_PADDING, prm.HUD_PADDING)
+    )
 
 
 def main() -> None:
@@ -64,8 +86,6 @@ def main() -> None:
     yel_bullets: List[Bullet] = []
     red_bullets: List[Bullet] = []
 
-    player_win_text = None
-
     clock = pg.time.Clock()
     run = True
     while run:
@@ -75,8 +95,12 @@ def main() -> None:
                 pg.quit()
             if evt.type == PLAYER_WIN_EVENT:
                 string = "Yellow won" if evt.team == Team.YELLOW else "Red won"
-                player_win_text = Font.MAIN_400.render(string, True, clr.Alias.TEXT)
-                draw_winner(player_win_text)
+                draw_winner(string)
+                run = False
+                break
+            if evt.type == PLAYER_TIE_EVENT:
+                string = "Draw"
+                draw_winner(string)
                 run = False
                 break
             if evt.type == pg.KEYDOWN:
@@ -113,14 +137,16 @@ def main() -> None:
         damaged_players = Bullet.handle_bullets(yel_bullets, red_bullets, yellow, red)
         if Team.YELLOW in damaged_players:
             yel_health -= 1
-            if yel_health <= 0:
+            if yel_health <= 0 and red_health <= 0:
+                player_tie()
+            elif yel_health <= 0:
                 player_win(Team.RED)
         if Team.RED in damaged_players:
             red_health -= 1
             if red_health <= 0:
                 player_win(Team.YELLOW)
 
-        draw_window(yellow, red, yel_bullets, red_bullets)
+        draw_window(yellow, red, yel_bullets, red_bullets, yel_health, red_health)
         clock.tick(prm.FPS)
     if state.Global._debug:
         print("Restart")
@@ -131,6 +157,11 @@ def player_win(team: Team):
     player_win_event = pg.event.Event(PLAYER_WIN_EVENT, {"team": team})
     pg.event.post(player_win_event)
     return team
+
+
+def player_tie():
+    player_tie_event = pg.event.Event(PLAYER_TIE_EVENT)
+    pg.event.post(player_tie_event)
 
 
 def handle_movement(
