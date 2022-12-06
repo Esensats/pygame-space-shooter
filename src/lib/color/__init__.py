@@ -20,6 +20,6 @@ class Code:
 
 
 class Alias:
-    BACKGROUND = Code.WHITE
-    BORDER = Code.WHITE
+    # BACKGROUND = Code.WHITE
+    BORDER = Code.GRAY
     TEXT = Code.WHITE
