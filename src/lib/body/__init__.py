@@ -6,6 +6,8 @@ from lib.general import Screen, Team
 
 
 class Bullet:
+    """Single individual bullet, which has a team property of type lib.general.Team, and a pygame rect as collision"""
+
     DEFAULT_SIZE = (10, 5)
     SPEED = 11  # 8
 

@@ -25,6 +25,8 @@ def draw_window(
     yel_health: int,
     red_health: int,
 ) -> None:
+    """Called every frame. Draws every object that should be drawn every
+    frame (excluding objects that are handled by other draw_* functions)"""
     # WIN.fill(CLR["BACKGROUND"])
     WIN.blit(Image.SPACE_BG, (0, 0))
     pg.draw.rect(WIN, clr.Alias.BORDER, prm.BORDER)
@@ -42,6 +44,11 @@ def draw_window(
 
 
 def draw_winner(string: str):
+    """Called when someone wins
+
+    Args:
+        string (str): Message to be displayed
+    """
     player_win_text = Font.MAIN_400.render(string, True, clr.Alias.TEXT)
     WIN.blit(
         player_win_text,
