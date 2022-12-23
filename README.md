@@ -16,12 +16,24 @@ First clone the project into desired directory using the following command in yo
 git clone https://github.com/Esensats/pygame-space-shooter.git
 ```
 
-Make sure you have `Python` installed. The interpreter used while developing was of version `3.9.12` by Anaconda.
+Make sure you have `Python` installed. The interpreter used while developing was of version `3.9.12`, but newer ones will most likely work as well.
 
-The following external libraries are required (Conda pre-installed libraries not listed):
+Then you have to use install required libraries using the following command:
 
+```bash
+pip install -r requirements.txt
 ```
-pygame
+
+> **_NOTE:_** if pip results in an error, you can try using one of the following commands:
+
+```bash
+pip3 install -r requirements.txt
+
+python -m pip install -r requirements.txt
+
+python3 -m pip install -r requirements.txt
 ```
+
+> if nothing works, you should check if your Python is installed correctly, and add `pip` to path.
 
 To launch the game you have to launch `src/main.py`. You can use `.vscode/launch.json` if you use VSCode.
