@@ -10,7 +10,7 @@ Notes: /src/lib folder is required, don't gitignore it
 
 ## Installation guide
 
-First clone the project into desired directory using the following command:
+First clone the project into desired directory using the following command in your terminal:
 
 ```bash
 git clone https://github.com/Esensats/pygame-space-shooter.git
