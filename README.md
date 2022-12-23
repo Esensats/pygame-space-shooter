@@ -37,3 +37,13 @@ python3 -m pip install -r requirements.txt
 > if nothing works, you should check if your Python is installed correctly, and add `pip` to path.
 
 To launch the game you have to launch `src/main.py`. You can use `.vscode/launch.json` if you use VSCode.
+
+## Controls
+
+To move the yellow spaceship use `WASD` keys.
+
+To move the red ship use these NUMPAD keys: `8, 4, 5, 6`.
+
+To shoot as yellow press `SPACE`.
+
+To shoot as red press `NUMPAD 0`.
